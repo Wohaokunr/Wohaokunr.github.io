@@ -1,21 +1,105 @@
-<! DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>我好困的网站</title>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我好困控制台demo_v0.1</title>
     <style>
         body {
-            background-image: url("下.png")
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
-        h1 {
-            text-align: center;
-            color: green;
+
+        .console-container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #console-output {
+            height: 200px;
+            overflow: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #console-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+        }
+
+        #console-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        #run-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>你好呀！</h1>
-    <p>中国人有句古话：敬惜字纸。这话有古今两种通俗变体：古代人们说，用印了字的纸擦屁股要瞎眼睛；现代有种近似科学的说法：用有油墨的纸擦屁股会生痔疮。其实，真正要敬惜的根本就不是纸，而是字。文字神圣。我没听到外国有类似的说法，他们那里神圣的东西都与上帝有关。人间的事物要想神圣，必须经过上帝或者上帝在人间代理机构的认可。听说，天主教的主教就需要教皇来祝圣。相比之下，中国人就不需要这个手续。只要读点书，识点字，就可以写文章。写来写去，自祝自圣。这件事有好处，也有不好处。好处是达到神圣的手续甚为简便，坏处是写什么都要带点“圣”气，就丧失了平常心。 --王小波 《理想国与哲人王》</p>
-    
+    <div class="console-container">
+        <div id="console-output"></div>
+        <input type="text" id="console-input" placeholder="输入命令,如'help'">
+        <button id="run-button" onclick="runCommand()">运行命令</button>
+    </div>
+
+    <script>
+        function runCommand() {
+            var inputElement = document.getElementById("console-input");
+            var outputElement = document.getElementById("console-output");
+
+            var command = inputElement.value;
+            // 输出用户输入的命令
+            outputElement.innerHTML += "> " + command + "<br>";
+
+            // 处理命令
+            processCommand(command);
+
+            // 清空输入框
+            inputElement.value = "";
+        }
+
+        function processCommand(command) {
+            // 将命令按空格分割为数组
+            var args = command.split(" ");
+            
+            // 获取命令
+            var cmd = args[0].toLowerCase();
+
+            // 根据命令执行相应操作
+            switch (cmd) {
+                case "help":
+                    output("可用命令： <br> - help: 显示帮助 <br> - date: 显示当前日期和时间");
+                    break;
+                case "date":
+                    var currentDate = new Date();
+                    output("当前日期和时间： " + currentDate.toLocaleString());
+                    break;
+                default:
+                    output("未知命令。输入 'help' 查看可用命令。");
+            }
+        }
+
+        function output(message) {
+            var outputElement = document.getElementById("console-output");
+            outputElement.innerHTML += message + "<br>";
+        }
+    </script>
 </body>
 </html>
