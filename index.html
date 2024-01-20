@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高考倒计时 ---我好困</title>
   <style>
+    /* Global styles */
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f0f0f0;
@@ -14,11 +16,17 @@
       margin: 0;
     }
 
+    /* Countdown container styles */
     .countdown-container {
       text-align: center;
       color: #333;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
+    /* Countdown number styles */
     .countdown-number {
       font-size: 3em;
       font-weight: bold;
@@ -27,6 +35,7 @@
       animation: pulse 1s infinite;
     }
 
+    /* Pulse animation */
     @keyframes pulse {
       0% {
         transform: scale(1);
@@ -41,6 +50,7 @@
   </style>
 </head>
 <body>
+  <!-- Countdown Timer -->
   <div class="countdown-container">
     <div class="countdown-number" id="days">0</div>
     <div>天</div>
@@ -50,10 +60,13 @@
     <div>分钟</div>
     <div class="countdown-number" id="seconds">0</div>
     <div>秒</div>
-    <div><h6>由我好困制作</h6></div>
+    <div><h6>部分代码由chatgpt生成</h6></div>
+    <div><h6>by:我好困～</h6></div>
   </div>
 
+  <!-- JavaScript -->
   <script>
+    // Update countdown function
     function updateCountdown() {
       const examDate = new Date('2026-06-06T00:00:00').getTime();
       const now = new Date().getTime();
@@ -64,12 +77,14 @@
       const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
+      // Update countdown elements
       document.getElementById('days').innerText = days;
       document.getElementById('hours').innerText = hours;
       document.getElementById('minutes').innerText = minutes;
       document.getElementById('seconds').innerText = seconds;
     }
 
+    // Initial countdown update and interval setup
     document.addEventListener('DOMContentLoaded', function () {
       updateCountdown();
       setInterval(updateCountdown, 1000);
