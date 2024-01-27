@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我好困的博客</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        /* 侧边导航栏样式 */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background: linear-gradient(to right, #ffffff, #f2f2f2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: #007bff;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* 按钮样式 */
+        #toggleBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f2f2f2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        #toggleBtn::after {
+            content: '\2630'; /* Unicode character for three horizontal lines */
+            font-size: 20px;
+        }
+
+        /* 动画效果 */
+        @keyframes slideIn {
+            from {
+                width: 0;
+            }
+            to {
+                width: 250px;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                width: 250px;
+            }
+            to {
+                width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>欢迎来到我的个人博客</h1>
+        <p>分享知识，记录生活</p>
+    </header>
+
+    <!-- 侧边导航栏 -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="time.html">高考倒计时</a>
+        <a href="#">导航项2</a>
+        <a href="#">导航项3</a>
+        <!-- 添加更多导航项 -->
+    </div>
+
+    <!-- 切换按钮 -->
+    <div id="toggleBtn" onclick="toggleNav()"></div>
+
+    <section>
+        <h2>最新文章</h2>
+        <article>
+            <h3>期末考寄了</h3>
+            <p>哈哈哈，一切都没有意义了，活着是为了什么呢？不为什么！我不需要为任何事情活着，那就让我死吧。啊哈哈哈哈哈哈哈哈！</p>
+        </article>
+
+        <!-- 添加更多文章 -->
+
+    </section>
+
+    <footer>
+        <p>&copy; 2024 我好困  |  个人博客</p>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            var sidenav = document.getElementById("mySidenav");
+            sidenav.style.width = sidenav.style.width === "250px" ? "0" : "250px";
+            document.body.style.backgroundColor = sidenav.style.width === "250px" ? "rgba(0,0,0,0.4)" : "white";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.body.style.backgroundColor = "white";
+        }
+    </script>
+
+</body>
+</html>
