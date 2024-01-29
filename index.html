@@ -27,7 +27,6 @@
             background-color: #f2f2f2;
         }
 
-        /* 侧边导航栏样式 */
         .sidenav {
             height: 100%;
             width: 0;
@@ -38,7 +37,7 @@
             background: linear-gradient(to right, #ffffff, #f2f2f2);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             overflow-x: hidden;
-            transition: 0.5s;
+            transition: width 0.5s;
             padding-top: 60px;
         }
 
@@ -48,7 +47,12 @@
             font-size: 18px;
             color: #000;
             display: block;
-            transition: 0.3s;
+            opacity: 0; /* 初始透明度为0 */
+            transition: opacity 0.3s; /* 添加过渡效果 */
+        }
+
+        .sidenav.open a {
+            opacity: 1; /* 展开时不透明 */
         }
 
         .sidenav a:hover {
@@ -63,7 +67,6 @@
             margin-left: 50px;
         }
 
-        /* 按钮样式 */
         #toggleBtn {
             position: fixed;
             top: 20px;
@@ -81,27 +84,8 @@
         }
 
         #toggleBtn::after {
-            content: '\2630'; /* Unicode character for three horizontal lines */
+            content: '\2630'; 
             font-size: 20px;
-        }
-
-        /* 动画效果 */
-        @keyframes slideIn {
-            from {
-                width: 0;
-            }
-            to {
-                width: 250px;
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                width: 250px;
-            }
-            to {
-                width: 0;
-            }
         }
     </style>
 </head>
@@ -112,16 +96,13 @@
         <p>分享知识，记录生活</p>
     </header>
 
-    <!-- 侧边导航栏 -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="time.html">高考倒计时</a>
         <a href="#">导航项2</a>
         <a href="#">导航项3</a>
-        <!-- 添加更多导航项 -->
     </div>
 
-    <!-- 切换按钮 -->
     <div id="toggleBtn" onclick="toggleNav()"></div>
 
     <section>
@@ -130,9 +111,6 @@
             <h3>期末考寄了</h3>
             <p>哈哈哈，一切都没有意义了，活着是为了什么呢？不为什么！我不需要为任何事情活着，那就让我死吧。啊哈哈哈哈哈哈哈哈！</p>
         </article>
-
-        <!-- 添加更多文章 -->
-
     </section>
 
     <footer>
@@ -142,12 +120,25 @@
     <script>
         function toggleNav() {
             var sidenav = document.getElementById("mySidenav");
-            sidenav.style.width = sidenav.style.width === "250px" ? "0" : "250px";
-            document.body.style.backgroundColor = sidenav.style.width === "250px" ? "rgba(0,0,0,0.4)" : "white";
+            if (sidenav.style.width === "250px") {
+                sidenav.style.width = "0";
+                setTimeout(function() {
+                    sidenav.classList.remove('open');
+                }, 500);
+            } else {
+                sidenav.style.width = "250px";
+                setTimeout(function() {
+                    sidenav.classList.add('open');
+                }, 500);
+            }
         }
 
         function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
+            var sidenav = document.getElementById("mySidenav");
+            sidenav.style.width = "0";
+            setTimeout(function() {
+                sidenav.classList.remove('open');
+            }, 500);
             document.body.style.backgroundColor = "white";
         }
     </script>
