@@ -61,8 +61,11 @@ async function renderPostFromQuery() {
     if (titleEl) titleEl.textContent = entry.title || '文章';
     if (contentEl) contentEl.innerHTML = html;
 
+    // Render math in DOM text nodes (avoids touching code blocks)
+    if (window.katex && contentEl) renderMathInElement(contentEl);
+
     // Highlight code blocks
-    if (window.hljs) contentEl.querySelectorAll('pre code').forEach((b) => window.hljs.highlightElement(b));
+    if (window.hljs && contentEl) contentEl.querySelectorAll('pre code').forEach((b) => window.hljs.highlightElement(b));
   } catch (e) {
     const contentEl = document.getElementById('postContent');
     if (contentEl) contentEl.innerHTML = '<p>加载文章失败。</p>';
@@ -70,34 +73,59 @@ async function renderPostFromQuery() {
   }
 }
 
-// Very small markdown -> html pipeline with KaTeX replacement
-function renderMarkdownWithKaTeX(md) {
-  // First, replace block math $$...$$ and inline $...$ with placeholders
-  const blocks = [];
-  // block math
-  md = md.replace(/\$\$([\s\S]+?)\$\$/g, function(_, expr){
-    try{
-      const html = katex.renderToString(expr, {displayMode:true, throwOnError:false});
-      return '\n' + html + '\n';
-    }catch(e){
-      return '\n<pre class="katex-error">'+escapeHtml(expr)+'</pre>\n';
+// Render markdown using markdown-it, then replace math expressions in text nodes
+function renderMarkdownWithKaTeX(mdText) {
+  const mdParser = (window.markdownit ? window.markdownit({html:true, linkify:true, typographer:true}) : null);
+  const html = mdParser ? mdParser.render(mdText) : mdText;
+  return html;
+}
+
+function renderMathInElement(root) {
+  const blacklist = new Set(['CODE','PRE','A','SCRIPT','STYLE','TEXTAREA']);
+
+  function isInBlackList(node) {
+    while (node && node !== root) {
+      if (node.nodeType === 1 && blacklist.has(node.tagName)) return true;
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  textNodes.forEach(textNode => {
+    if (!textNode.nodeValue || isInBlackList(textNode.parentNode)) return;
+    let s = textNode.nodeValue;
+    // quick skip if no $ present
+    if (s.indexOf('$') === -1) return;
+
+    // Replace block math $$...$$ first
+    let replaced = s.replace(/\$\$([\s\S]+?)\$\$/g, function(_, expr){
+      try{
+        return katex.renderToString(expr, {displayMode:true, throwOnError:false});
+      }catch(e){
+        return '<span class="katex-error">'+escapeHtml(expr)+'</span>';
+      }
+    });
+
+    // Then inline math $...$
+    replaced = replaced.replace(/\$(.+?)\$/g, function(_, expr){
+      try{
+        return katex.renderToString(expr, {displayMode:false, throwOnError:false});
+      }catch(e){
+        return '<code class="katex-error">'+escapeHtml(expr)+'</code>';
+      }
+    });
+
+    if (replaced !== s) {
+      // create fragment from replaced HTML and swap
+      const span = document.createElement('span');
+      span.innerHTML = replaced;
+      textNode.parentNode.replaceChild(span, textNode);
     }
   });
-
-  // inline math
-  md = md.replace(/\$(.+?)\$/g, function(_, expr){
-    // avoid matching code spans by a simple heuristic: if contains space at ends, skip
-    try{
-      const html = katex.renderToString(expr, {displayMode:false, throwOnError:false});
-      return html;
-    }catch(e){
-      return '<code class="katex-error">'+escapeHtml(expr)+'</code>';
-    }
-  });
-
-  // Now convert markdown (marked) to HTML
-  const rendered = (window.marked ? marked.parse(md) : md);
-  return rendered;
 }
 
 // Initialize on DOMContentLoaded
