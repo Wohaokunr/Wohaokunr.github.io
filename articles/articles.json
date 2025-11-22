@@ -1,0 +1,16 @@
+[
+  {
+    "title": "欢迎来到我的博客",
+    "slug": "welcome",
+    "file": "welcome.md",
+    "date": "2025-11-22",
+    "summary": "博客重构示例：文章使用 Markdown 存放并通过客户端渲染，支持数学公式。"
+  },
+  {
+    "title": "数学公式示例",
+    "slug": "math-example",
+    "file": "math-example.md",
+    "date": "2025-11-22",
+    "summary": "展示使用 KaTeX 在文章中渲染行内与块级数学公式。"
+  }
+]

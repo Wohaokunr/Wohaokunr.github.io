@@ -1,70 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>高考倒计时 ---我好困</title>
-  <style>
-    /* Global styles */
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    /* Countdown container styles */
-    .countdown-container {
-      text-align: center;
-      color: #333;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Countdown number styles */
-    .countdown-number {
-      font-size: 3em;
-      font-weight: bold;
-      margin: 0.2em;
-      color: #ff6347;
-      animation: pulse 1s infinite;
-    }
-
-    /* Pulse animation */
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-	
-	a {
-            padding: 8px 8px 8px 8px;
-            text-decoration: none;
-            font-size: 13px;
-            color: #000;
-            display: block;
-            transition: 0.3s;
-        }
-	a:hover {
-            color: #007bff;
-        }	
-
-  </style>
+  <meta name="description" content="高考倒计时 - 我好困的博客">
+  <title>高考倒计时 --- 我好困</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Countdown Timer -->
-  <div class="countdown-container">
+  <div class="countdown-container" data-target="2026-06-06T00:00:00">
     <div class="countdown-number" id="days">0</div>
     <div>天</div>
     <div class="countdown-number" id="hours">0</div>
@@ -73,35 +18,10 @@
     <div>分钟</div>
     <div class="countdown-number" id="seconds">0</div>
     <div>秒</div>
-    <div><h6>部分代码由chatgpt生成</h6></div>
-    <div> <a href="index.html">返回主页</a><h6>by:我好困～</h6></div>
+    <div><h6>部分代码由工具生成</h6></div>
+    <div><a href="index.html">返回主页</a> <span class="muted">by: 我好困</span></div>
   </div>
 
-  <!-- JavaScript -->
-  <script>
-    // Update countdown function
-    function updateCountdown() {
-      const examDate = new Date('2026-06-06T00:00:00').getTime();
-      const now = new Date().getTime();
-      const timeDifference = examDate - now;
-
-      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-      // Update countdown elements
-      document.getElementById('days').innerText = days;
-      document.getElementById('hours').innerText = hours;
-      document.getElementById('minutes').innerText = minutes;
-      document.getElementById('seconds').innerText = seconds;
-    }
-
-    // Initial countdown update and interval setup
-    document.addEventListener('DOMContentLoaded', function () {
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    });
-  </script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
